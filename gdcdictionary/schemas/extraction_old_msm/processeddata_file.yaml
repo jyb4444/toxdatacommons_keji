@@ -1,0 +1,82 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "processeddata_file"
+title: processeddata_file
+type: object
+category: data_file
+program: '*'
+project: '*'
+description: >
+  description of processeddata_file.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties: 
+  - id
+  - project_id
+  - state
+  - created_datetime
+  - updated_datetime
+  - file_state
+  - error_type
+
+
+required:
+  - type
+  - submitter_id
+
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id ]
+
+links:
+  - exclusive: false
+    required: true
+    subgroup:
+    - name: extractions
+      backref: processeddata_files
+      label: member_of
+      target_type: extraction
+      multiplicity: one_to_many
+      required: true
+    - name: core_metadata_collections
+      backref: processeddata_files
+      label: data_from
+      target_type: core_metadata_collection
+      multiplicity: many_to_many
+      required: false
+
+properties:
+  $ref: "_definitions.yaml#/data_file_properties"
+  type:
+    enum: ["processeddata_file"]
+  flourescence_reagents:
+    $ref: "_definitions.yaml#/to_many"
+  data_category: 
+    type: string
+  data_type: 
+    type: string
+  data_format: 
+    type: string
+  file_source_repository:
+    type: string
+  repository_accession_id:
+    type: string
+  repository_download_ftp:
+    type: string
+  provenance: 
+    type: string
+    description: "template version"
+  state:
+    $ref: "_definitions.yaml#/state"
+  project_id:
+    $ref: "_definitions.yaml#/project_id"
+  created_datetime:
+    $ref: "_definitions.yaml#/datetime"
+  updated_datetime:
+    $ref: "_definitions.yaml#/datetime"
+  core_metadata_collections:
+    $ref: "_definitions.yaml#/to_many"
+

@@ -1,0 +1,84 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "data_analysis_msm"
+title: data_analysis_msm
+type: object
+category: analysis
+program: '*'
+project: '*'
+description: >
+  description of data anadata_analysis_mass_spec_metabolomicslysis.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties: 
+  - id
+  - project_id
+  - state
+  - created_datetime
+  - updated_datetime
+
+required:
+  - type
+  - submitter_id # data_analysis_id
+
+uniqueKeys:
+  - [id]
+  - [ project_id, submitter_id ]
+
+links:
+  - name: rawDataFiles
+    backref: data_analysis_msmes
+    label: member_of
+    target_type: rawdata_file
+    multiplicity: many_to_one
+    required: true
+  - name: processedDataFiles
+    backref: data_analysis_msmes
+    label: member_of
+    target_type: processeddata_file
+    multiplicity: many_to_one
+    required: true
+
+properties:
+  type:
+    enum: ["data_analysis_msm"]
+  id:
+    $ref: "_definitions.yaml#/UUID"
+  submitter_id:
+    type: string
+  data_analysis_id:
+    type: string
+  analysis_protocol:
+    type: string
+    description: "A brief description of the flow cytometry protocol"
+  analysis_protocol_DOI:
+    type: string
+    description: " A DOI to a version controlled protocol, preferably available on a repository such as protocols.io"
+  rawDataFiles:
+    $ref: "_definitions.yaml#/to_one"
+  normalization:
+    type: string
+  transformation: 
+    type: string
+  transformationPurpose: 
+    type: string
+  transformationDescription:
+    type: string 
+  processedDataFiles: 
+    $ref: "_definitions.yaml#/to_one"
+  unit: 
+    type: string
+    description: nmol/mg total protein
+  provenance: 
+    type: string
+    description: "template version"
+  state:
+    $ref: "_definitions.yaml#/state"
+  project_id:
+    $ref: "_definitions.yaml#/project_id"
+  created_datetime:
+    $ref: "_definitions.yaml#/datetime"
+  updated_datetime:
+    $ref: "_definitions.yaml#/datetime"

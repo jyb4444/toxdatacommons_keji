@@ -1,0 +1,65 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "ms_method"
+title: ms_method
+type: object
+category: analysis
+program: '*'
+project: '*'
+description: >
+  description of ms_method.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties: 
+  - id
+  - project_id
+  - state
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - type
+
+uniqueKeys:
+  - [id]
+  - [ project_id, submitter_id ]
+
+links:
+  - name: extractions
+    backref: ms_methods
+    label: member_of
+    target_type: extraction
+    multiplicity: many_to_one
+    required: true
+
+properties:
+  id:
+    $ref: "_definitions.yaml#/UUID"
+    systemAlias: node_id
+  type:
+    enum: ["ms_method"]
+  submitter_id:
+    type: string
+  extractions:
+    $ref: "_definitions.yaml#/to_one"
+  name: 
+    type: string
+    description: "name of ms_method"
+  ms_protocol:
+    type: string
+  ms_protocol_DOI: 
+    type: string
+  provenance:
+    type: string
+    description: "template version"
+  state:
+    $ref: "_definitions.yaml#/state"
+  project_id:
+    $ref: "_definitions.yaml#/project_id"
+  created_datetime:
+    $ref: "_definitions.yaml#/datetime"
+  updated_datetime:
+    $ref: "_definitions.yaml#/datetime"
